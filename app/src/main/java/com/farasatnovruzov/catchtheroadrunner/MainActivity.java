@@ -27,23 +27,9 @@ public class MainActivity extends AppCompatActivity {
     Handler handler;
 
 //    ArrayList<String> imageList;
-    ImageView imageView1;
-    ImageView imageView2;
-    ImageView imageView3;
-    ImageView imageView4;
-    ImageView imageView5;
-    ImageView imageView6;
-    ImageView imageView7;
-    ImageView imageView8;
-    ImageView imageView9;
-    ImageView imageView10;
-    ImageView imageView11;
-    ImageView imageView12;
-    ImageView imageView13;
-    ImageView imageView14;
-    ImageView imageView15;
-    ImageView imageView16;
-    ImageView[] imageArray;
+
+    ImageView imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9,imageView10,imageView11,imageView12,imageView13,imageView14,imageView15,imageView16;
+    ImageView imageArray[] = {imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9,imageView10,imageView11,imageView12,imageView13,imageView14,imageView15,imageView16};
 
 
 
@@ -54,54 +40,50 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+//        public void generateNumber(){
+//            handler = new Handler();
+//            run = new Runnable() {
+//                @Override
+//                public void run() {
+//                    randomX = new Random().nextInt(1000 - 0) + 0;
+//                    randomY = new Random().nextInt(1000 - 0) + 0;
+//                    handler.postDelayed(this, 400);
+//                    kenny.setX(randomX);
+//                    kenny.setY(randomY);
+//                    textView2.setText(Integer.toString(score));
+//                }
+//            };
+//            handler.post(run);
+//
+//        }
+
         timeView = findViewById(R.id.timeView);
         scoreView = findViewById(R.id.scoreView);
         second = 10;
         score = 0;
 
 
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 =  findViewById(R.id.imageView2);
-        imageView3 =  findViewById(R.id.imageView3);
-        imageView4 =  findViewById(R.id.imageView4);
-        imageView5 =  findViewById(R.id.imageView5);
-        imageView6 =  findViewById(R.id.imageView6);
-        imageView7 =  findViewById(R.id.imageView7);
-        imageView8 =  findViewById(R.id.imageView8);
-        imageView9 =  findViewById(R.id.imageView9);
-        imageView10 = findViewById(R.id.imageView10);
-        imageView11 = findViewById(R.id.imageView11);
-        imageView12 = findViewById(R.id.imageView12);
-        imageView13 = findViewById(R.id.imageView13);
-        imageView14 = findViewById(R.id.imageView14);
-        imageView15 = findViewById(R.id.imageView15);
-        imageView16 = findViewById(R.id.imageView16);
+        imageArray[0] = findViewById(R.id.imageView1);
+        imageArray[1] =  findViewById(R.id.imageView2);
+        imageArray[2] =  findViewById(R.id.imageView3);
+        imageArray[3] =  findViewById(R.id.imageView4);
+        imageArray[4] =  findViewById(R.id.imageView5);
+        imageArray[5] =  findViewById(R.id.imageView6);
+        imageArray[6] =  findViewById(R.id.imageView7);
+        imageArray[7] =  findViewById(R.id.imageView8);
+        imageArray[8] =  findViewById(R.id.imageView9);
+        imageArray[9] = findViewById(R.id.imageView10);
+        imageArray[10] = findViewById(R.id.imageView11);
+        imageArray[11] = findViewById(R.id.imageView12);
+        imageArray[12] = findViewById(R.id.imageView13);
+        imageArray[13] = findViewById(R.id.imageView14);
+        imageArray[14] = findViewById(R.id.imageView15);
+        imageArray[15] = findViewById(R.id.imageView16);
 
-
-
-        imageArray = new ImageView[] {imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9,imageView10,imageView11,imageView12,imageView13,imageView14,imageView15,imageView16};
         hideImages();
         scoreView.setText("Score: "+score);
         Toast.makeText(MainActivity.this, "Level 1", Toast.LENGTH_SHORT).show();
-        Toast.makeText(MainActivity.this, "You just need 8 score for pass next level", Toast.LENGTH_SHORT).show();
-
-
-//        handler = new Handler();
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                timeView.setText("Time: "+second);
-//                second --;
-//                timeView.setText("Time: "+second);
-//                handler.postDelayed(runnable,1000);
-//                if(second == 0){
-//                    handler.removeCallbacks(runnable);
-//                }
-//            }
-//        };
-//        handler.post(runnable);
-
-
+        Toast.makeText(MainActivity.this, "You just need 7 score for pass next level", Toast.LENGTH_SHORT).show();
 
         new CountDownTimer(15000,1000){
 
@@ -114,14 +96,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timeView.setText("Time Off");
-                if (score>8){
-                    Toast.makeText(MainActivity.this, "Great! You have passed the level", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this,MainActivity2.class);
-                    startActivity(intent);
+                if (score > 6){
+
+                        Toast.makeText(MainActivity.this, "Good! You have passed the level", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                        startActivity(intent);
+
+
                 }else {
                     scoreView.setText("Game Over:\n Your Score: " + score);
                     Toast.makeText(MainActivity.this, "Game Over:\n Your Score: " + score, Toast.LENGTH_SHORT).show();
-                }
+
 
                 handler.removeCallbacks(runnable);
                 for(ImageView image : imageArray){
@@ -152,14 +137,17 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 scoreView.setText("Game Over:\n Your Score: "+score);
                                 handler.postDelayed(runnable,2000);
+                                finishAffinity();
+                                System.exit(0);
                             }
                         };
                         handler.post(runnable);
-                        finish();
+
                     }
                 });
                 alert.show();
 
+            }
             }
         }.start();
 

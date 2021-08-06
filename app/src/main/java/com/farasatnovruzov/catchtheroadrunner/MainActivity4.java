@@ -13,8 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Random;
 
-
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity4 extends AppCompatActivity {
     TextView timeView;
     TextView scoreView;
     int second;
@@ -44,9 +43,9 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-        Toast.makeText(MainActivity2.this, "Level 2", Toast.LENGTH_SHORT).show();
-        Toast.makeText(MainActivity2.this, "You just need 3 score for next level", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.activity_main4);
+        Toast.makeText(MainActivity4.this, "Level 3", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity4.this, "You just need 1 score for victory", Toast.LENGTH_SHORT).show();
         timeView = findViewById(R.id.timeView);
         scoreView = findViewById(R.id.scoreView);
         second = 10;
@@ -75,22 +74,7 @@ public class MainActivity2 extends AppCompatActivity {
         hideImages();
         scoreView.setText("Score: " + score);
 
-//        handler = new Handler();
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                timeView.setText("Time: "+second);
-//                second --;
-//                timeView.setText("Time: "+second);
-//                handler.postDelayed(runnable,1000);
-//                if(second == 0){
-//                    handler.removeCallbacks(runnable);
-//                }
-//            }
-//        };
-//        handler.post(runnable);
-
-        new CountDownTimer(15000, 1000) {
+        new CountDownTimer(10000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -107,20 +91,24 @@ public class MainActivity2 extends AppCompatActivity {
                 }
 
 
-                if (score > 2) {
-
-                        Toast.makeText(MainActivity2.this, "Great! You have passed the level", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity2.this, MainActivity4.class);
+                if (score > 0) {
+                    try {
+                        Thread.sleep(3000);
+                        Intent intent = new Intent(MainActivity4.this, MainActivity3.class);
                         startActivity(intent);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
 
                 } else {
 
 
                     scoreView.setText("Game Over:\n Your Score: " + score);
-                    Toast.makeText(MainActivity2.this, "Game Over:\n Your Score: " + score, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity4.this, "Game Over:\n Your Score: " + score, Toast.LENGTH_SHORT).show();
 
 
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity2.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity4.this);
                     alert.setCancelable(false);
                     alert.setTitle("Restart?");
                     alert.setMessage("Are you sure to restart game?");
@@ -130,7 +118,7 @@ public class MainActivity2 extends AppCompatActivity {
                             getIntent();
                             finish();
 
-                            Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                            Intent intent = new Intent(MainActivity4.this, MainActivity.class);
                             startActivity(intent);
 
                         }
@@ -143,7 +131,7 @@ public class MainActivity2 extends AppCompatActivity {
                             runnable = new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(MainActivity2.this, "Game Over:\n Your Score: " + score, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity4.this, "Game Over:\n Your Score: " + score, Toast.LENGTH_SHORT).show();
                                     scoreView.setText("Game Over:\n Your Score: " + score);
                                     handler.postDelayed(runnable, 1000);
                                     finishAffinity();
@@ -152,44 +140,46 @@ public class MainActivity2 extends AppCompatActivity {
                             };
                             handler.post(runnable);
 
+
                         }
+
                     });
                     alert.show();
                 }
             }
 
-            }.start();
+        }.start();
 
-        }
+    }
 
 
-            public void increaseScore(View view) {
-                score++;
-                scoreView.setText("Score: " + score);
+    public void increaseScore(View view) {
+        score++;
+        scoreView.setText("Score: " + score);
+    }
+
+    public void hideImages() {
+
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                for (ImageView image : imageArray) {
+                    image.setVisibility(View.INVISIBLE);
+                }
+
+                Random random = new Random();
+                int i = random.nextInt(16);
+                imageArray[i].setVisibility(View.VISIBLE);
+                handler.postDelayed(this, 200);
             }
 
-            public void hideImages() {
-
-                handler = new Handler();
-                runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        for (ImageView image : imageArray) {
-                            image.setVisibility(View.INVISIBLE);
-                        }
-
-                        Random random = new Random();
-                        int i = random.nextInt(16);
-                        imageArray[i].setVisibility(View.VISIBLE);
-                        handler.postDelayed(this, 300);
-                    }
-
-                };
-                handler.post(runnable);
-
-
-            }
+        };
+        handler.post(runnable);
 
 
     }
+
+
+}
 
